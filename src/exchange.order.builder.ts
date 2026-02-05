@@ -23,6 +23,7 @@ export class ExchangeOrderBuilder {
         private readonly contractAddress: string,
         private readonly chainId: number,
         private readonly signer: Wallet | JsonRpcSigner,
+        private readonly signerAddress: string,
         private readonly generateSalt = generateOrderSalt
     ) {}
 
@@ -56,41 +57,20 @@ export class ExchangeOrderBuilder {
         side,
         feeRateBps,
         nonce,
-        signer,
-        expiration,
-        signatureType,
     }: OrderData): Promise<Order> {
-        if (typeof signer == 'undefined' || !signer) {
-            signer = maker;
-        }
-
-        const signerAddress = await this.signer.getAddress();
-        if (signer !== signerAddress) {
-            throw new Error('signer does not match');
-        }
-
-        if (typeof expiration == 'undefined' || !expiration) {
-            expiration = '0';
-        }
-
-        if (typeof signatureType == 'undefined' || !signatureType) {
-            // Default to EOA 712 sig type
-            signatureType = SignatureType.EOA;
-        }
-
         return {
             salt: this.generateSalt(),
             maker,
-            signer,
+            signer: this.signerAddress,
             taker,
             tokenId,
             makerAmount,
             takerAmount,
-            expiration,
+            expiration: '0',
             nonce,
             feeRateBps,
             side,
-            signatureType,
+            signatureType: SignatureType.EOA,
         };
     }
 
