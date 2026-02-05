@@ -38,6 +38,7 @@
   "scripts": {
     "build": "make build",
     "test": "make test",
+    "prepare": "npm run build",
     "lint": "make lint",
     "postbuild": "cp package.json dist && cp README.md dist"
   },
