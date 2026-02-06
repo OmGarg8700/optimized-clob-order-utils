@@ -47,7 +47,7 @@ export class ExchangeOrderBuilder {
             nonce,
             feeRateBps,
             side,
-            signatureType: SignatureType.EOA,
+            signatureType: SignatureType.POLY_PROXY,
         };
     }
     /**
